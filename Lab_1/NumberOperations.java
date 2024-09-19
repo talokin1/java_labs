@@ -11,13 +11,14 @@ public class NumberOperations {
         list.add(4, 61.4141);
         list.add(9, 123.951);
 
-        System.out.println("Всі числа: " + list);
-        System.out.println("");
+        System.out.println("Всi числа: " + list);
+
+        System.out.println("-".repeat(100));
 
 
         // ВИвід чисел у форматі цілих чисел
 
-        System.out.print("Числа у форматі цілих чисел: [");
+        System.out.print("Числа у форматi цiлих чисел: [");
 
         for (int i = 0; i < list.size(); i++) {
             System.out.printf("%d", list.get(i).intValue());
@@ -32,7 +33,7 @@ public class NumberOperations {
 
         // Вивід чисел у форматі чисел з плаваючою точкой з двума знаками після коми
 
-        System.out.print("Числа у форматі чисел з плаваючою точкой: [");
+        System.out.print("Числа у форматi чисел з плаваючою точкой: [");
 
         for (int i = 0; i < list.size(); i++) {
             System.out.printf("%.2f", list.get(i).doubleValue());
@@ -43,17 +44,39 @@ public class NumberOperations {
         }
 
         System.out.println("]");
-        System.out.println("-");
+        System.out.println("-".repeat(100));
 
+        // Збереження в список в залежності від типу об'єкта
+        ArrayList<Integer> list_of_Integers = new ArrayList<>();
+        ArrayList<Double> list_of_Doubles = new ArrayList<>();
+        
+        for (Number number: list) {
+            if (number.getClass() == Integer.class ) {
+                list_of_Integers.add((Integer) number);
+            }
+            else if (number.getClass() == Double.class ) {
+                list_of_Doubles.add((Double) number);
+            }
+        }
+
+        System.out.println("Тiльки цiлi числа: "+ list_of_Integers + "\n");
+        System.out.println("Тiльки числа з плаваючою точкою: "+ list_of_Doubles);
+
+        System.err.println("-".repeat(100));
 
         // Знаходимо добуток перших п'яти чисел
         double product = 1;
 
-        for (int i=0; i < 5; i++) {
-            product *= list.get(i).doubleValue();
+        if (list.size() >= 5){
+            for (int i=0; i < 5; i++) {
+                product *= list.get(i).doubleValue();
+            }
         }
+        else {
+            System.err.println("Кiлькiсть чисел менше 5");
+        }    
 
-        System.out.printf("Добуток перших п'яти чисел: %.3f", product);
+        System.out.printf("Добуток перших п'яти чисел: %.3f \n\n", product);
 
     }
 }
