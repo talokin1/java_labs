@@ -1,3 +1,4 @@
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -8,22 +9,19 @@ public class PaymentTypeSelector {
         this.scanner = new Scanner(System.in);
     }
 
+    private static final Map<Integer, PaymentType> paymentTypeMap = Map.of(
+    1, PaymentType.CreditCard,
+    2, PaymentType.PayPal,
+    3, PaymentType.BankTransfer
+
+    );
+
     public PaymentType chosePaymentType() {
-        System.out.print("1. CreditCard\n2. PayPal\n3. BankTransfer\nОберіть тип оплати: ");
+        System.out.print("1. CreditCard\n2. PayPal\n3. BankTransfer\nОберiть тип оплати: ");
         int choiceOfPaymentType = scanner.nextInt();
-        scanner.nextLine();
-        switch (choiceOfPaymentType) {
-            case 1:
-                return PaymentType.CreditCard;
-            case 2:
-                return PaymentType.PayPal;
-            case 3:
-                return PaymentType.BankTransfer;
-            default:
-                System.out.println("Неправильний вибір");
-                return null;
-        }
+        return paymentTypeMap.getOrDefault(choiceOfPaymentType, null);
     }
+
 }
 
 
@@ -67,22 +65,29 @@ class PaymentDetailsInputHandler {
         return new String[]{iban, bankName};
     }
 
+
     public Payment getPaymentDetails(PaymentType paymentType, double amount) {
+        String[] paymentInfo = getPaymentInfo(paymentType);
+        return PaymentFactory.createPayment(paymentType, amount, paymentInfo);
+    }
+
+
+    private String[] getPaymentInfo(PaymentType paymentType) {
         switch (paymentType) {
             case CreditCard:
-                String[] creditCardInfo = getCreditCardInfo();
-                return PaymentFactory.createPayment(paymentType, amount, creditCardInfo);
+                return getCreditCardInfo();
             case PayPal:
-                String[] paypalInfo = getPayPalInfo();
-                return PaymentFactory.createPayment(paymentType, amount, paypalInfo);
+                return getPayPalInfo();
             case BankTransfer:
-                String[] bankTransferInfo = getBankTransferInfo();
-                return PaymentFactory.createPayment(paymentType, amount, bankTransferInfo);
+                return getBankTransferInfo();
             default:
                 throw new IllegalArgumentException("Невідомий тип оплати");
         }
     }
 }
+    
+    
+
 
 
 class PaymentValidator {
