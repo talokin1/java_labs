@@ -1,14 +1,15 @@
 import java.util.Scanner;
 
-public class UserInputProcessing {
+
+public class PaymentTypeSelector {
     private Scanner scanner;
 
-    public UserInputProcessing() {
+    public PaymentTypeSelector() {
         this.scanner = new Scanner(System.in);
     }
 
     public PaymentType chosePaymentType() {
-        System.out.print("1. CreditCard\n2. PayPal\n3. BankTransfer\nОберiть тип оплати: ");
+        System.out.print("1. CreditCard\n2. PayPal\n3. BankTransfer\nОберіть тип оплати: ");
         int choiceOfPaymentType = scanner.nextInt();
         scanner.nextLine();
         switch (choiceOfPaymentType) {
@@ -22,6 +23,15 @@ public class UserInputProcessing {
                 System.out.println("Неправильний вибір");
                 return null;
         }
+    }
+}
+
+
+class PaymentDetailsInputHandler {
+    private Scanner scanner;
+
+    public PaymentDetailsInputHandler() {
+        this.scanner = new Scanner(System.in);
     }
 
     public String[] getCreditCardInfo() {
@@ -72,12 +82,20 @@ public class UserInputProcessing {
                 throw new IllegalArgumentException("Невідомий тип оплати");
         }
     }
+}
+
+
+class PaymentValidator {
+    private Scanner scanner;
+
+    public PaymentValidator() {
+        this.scanner = new Scanner(System.in);
+    }
 
     public boolean isCorrectPayment(Payment payment) {
         payment.makePayment();
         System.out.print("Чи правильно введені дані? (y/n): ");
         String choice = scanner.nextLine();
-
         return choice.equalsIgnoreCase("y");
     }
 }
