@@ -59,7 +59,7 @@ class GildedRose {
 
 
     private void updateSellIn(Item item) {
-        if (!item.name.equals("Sulfuras, Hand of Ragnaros")) {
+        if (!isSulfuras(item)) {
             item.sellIn = item.sellIn - 1;
         }
     }
