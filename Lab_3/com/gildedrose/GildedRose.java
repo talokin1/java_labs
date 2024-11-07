@@ -122,6 +122,9 @@ class GildedRose {
         return item.name.equals("Backstage passes to a TAFKAL80ETC concert");
     }
 
+    private boolean isSulfuras(Item item) {
+        return item.name.equals("Sulfuras, Hand of Ragnaros");
+    }
 
 
 }
