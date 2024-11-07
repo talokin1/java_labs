@@ -31,6 +31,7 @@ class GildedRose {
         for (Item item : items) {
             updateItemQuality(item);
             updateSellIn(item);
+            borderQuality(item);
         }
     }
 
