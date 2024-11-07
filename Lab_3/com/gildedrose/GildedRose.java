@@ -109,31 +109,13 @@ class GildedRose {
         this.items = items;
     }
 
-
-    private ItemCategory getItemCategory(Item item) {
-        if (item.name.equals("Aged Brie")) {
-            return new AgedBrieCategory();
-        } 
-        else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-            return new BackstagePassCategory();
-        }
-        else if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return new SulfurasCategory();
-        }
-
-        return new RegularItemCategory();
-    }
-
-
     public void updateQuality() {
         for (Item item : items) {
-            ItemCategory category = getItemCategory(item);
+            ItemCategory category = ItemCategoryFactory.getCategory(item);
             category.updateQuality(item);
             category.updateSellIn(item);
         }
     }
-
-
 }
 
 
