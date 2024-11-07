@@ -1,72 +1,60 @@
 package com.gildedrose;
 
-class GildedRose {
-    Item[] items;
+abstract class ItemCategory {
+    abstract void updateQuality(Item item);
+    abstract void updateSellIn(Item item);
 
-    public GildedRose(Item[] items) {
-        this.items = items;
-    }
-
-    private void updateItemQuality(Item item) {
-        if (isRegularItem(item)) {
-            updateRegularItem(item);
-        }
-        else if (isAgedBrie(item)) {
-            updateAgedBrie(item);
-        }
-        else if (isBackstagePass(item)) {
-            updateBackstagePasses(item);
+    void borderQuality(Item item) {
+        if (item.quality < 0) {
+            item.quality = 0;
+        } else if (item.quality > 50) {
+            item.quality = 50;
         }
     }
+}
 
 
-    private void updateSellIn(Item item) {
-        if (!isSulfuras(item)) {
-            item.sellIn = item.sellIn - 1;
-        }
-    }
-
-
-    public void updateQuality() {
-        for (Item item : items) {
-            updateItemQuality(item);
-            updateSellIn(item);
-            borderQuality(item);
-        }
-    }
-
-
-    private boolean isRegularItem(Item item) {
-        return !item.name.equals("Aged Brie") && 
-               !item.name.equals("Backstage passes to a TAFKAL80ETC concert") &&
-               !item.name.equals("Sulfuras, Hand of Ragnaros");
-    }
-
-    private void updateRegularItem(Item item) {
+class RegularItemCategory extends ItemCategory {
+    @Override
+    void updateQuality(Item item) {
         if (item.quality > 0) {
             item.quality -= 1;
         }
         if (item.sellIn < 0 && item.quality > 0) {
             item.quality -= 1;
         }
+        borderQuality(item);
     }
 
+    @Override
+    void updateSellIn(Item item) {
+        item.sellIn -= 1;
+    }
+}
 
-    private void updateAgedBrie(Item item) {
+
+class AgedBrieCategory extends ItemCategory {
+    @Override
+    void updateQuality(Item item) {
         if (item.quality < 50) {
             item.quality += 1;
         }
         if (item.sellIn < 0 && item.quality < 50) {
             item.quality += 1;
         }
+        borderQuality(item);
     }
 
-    private boolean isAgedBrie(Item item) {
-        return item.name.equals("Aged Brie");
+    @Override
+    void updateSellIn(Item item) {
+        item.sellIn -= 1;
     }
-    
+}
 
-    private void updateBackstagePasses(Item item) {
+
+class BackstagePassCategory extends ItemCategory {
+    @Override
+    void updateQuality(Item item) {
         if (item.quality < 50) {
             item.quality += 1;
             if (item.sellIn < 11 && item.quality < 50) {
@@ -79,26 +67,55 @@ class GildedRose {
         if (item.sellIn < 0) {
             item.quality = 0;
         }
-    }
-    
-    private boolean isBackstagePass(Item item) {
-        return item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+        borderQuality(item);
     }
 
-    private boolean isSulfuras(Item item) {
-        return item.name.equals("Sulfuras, Hand of Ragnaros");
+    @Override
+    void updateSellIn(Item item) {
+        item.sellIn -= 1;
+    }
+}
+
+
+class SulfurasCategory extends ItemCategory {
+    @Override
+    void updateQuality(Item item) {}
+
+    @Override
+    void updateSellIn(Item item) {}
+}
+
+
+
+
+class GildedRose {
+    Item[] items;
+
+    public GildedRose(Item[] items) {
+        this.items = items;
     }
 
 
-    private void borderQuality(Item item) {
-        if (item.quality > 50) {
-            item.quality = 50;
+    private ItemCategory getItemCategory(Item item) {
+        if (item.name.equals("Aged Brie")) {
+            return new AgedBrieCategory();
+        } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+            return new BackstagePassCategory();
+        } else if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
+            return new SulfurasCategory();
+        } else {
+            return new RegularItemCategory();
         }
-        if (item.quality < 0) {
-            item.quality = 0;
-        }
     }
 
+
+    public void updateQuality() {
+        for (Item item : items) {
+            ItemCategory category = getItemCategory(item);
+            category.updateQuality(item);
+            category.updateSellIn(item);
+        }
+    }
 
 }
 
