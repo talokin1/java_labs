@@ -118,6 +118,9 @@ class GildedRose {
         }
     }
     
+    private boolean isBackstagePass(Item item) {
+        return item.name.equals("Backstage passes to a TAFKAL80ETC concert");
+    }
 
 
 
