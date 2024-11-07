@@ -86,6 +86,20 @@ class SulfurasCategory extends ItemCategory {
 }
 
 
+class ItemCategoryFactory {
+    static ItemCategory getCategory(Item item) {
+        switch (item.name) {
+            case "Aged Brie":
+                return new AgedBrieCategory();
+            case "Backstage passes to a TAFKAL80ETC concert":
+                return new BackstagePassCategory();
+            case "Sulfuras, Hand of Ragnaros":
+                return new SulfurasCategory();
+            default:
+                return new RegularItemCategory();
+        }
+    }
+}
 
 
 class GildedRose {
@@ -99,13 +113,15 @@ class GildedRose {
     private ItemCategory getItemCategory(Item item) {
         if (item.name.equals("Aged Brie")) {
             return new AgedBrieCategory();
-        } else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
+        } 
+        else if (item.name.equals("Backstage passes to a TAFKAL80ETC concert")) {
             return new BackstagePassCategory();
-        } else if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
-            return new SulfurasCategory();
-        } else {
-            return new RegularItemCategory();
         }
+        else if (item.name.equals("Sulfuras, Hand of Ragnaros")) {
+            return new SulfurasCategory();
+        }
+
+        return new RegularItemCategory();
     }
 
 
@@ -116,6 +132,7 @@ class GildedRose {
             category.updateSellIn(item);
         }
     }
+
 
 }
 
