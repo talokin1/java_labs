@@ -101,7 +101,22 @@ class GildedRose {
     private boolean isAgedBrie(Item item) {
         return item.name.equals("Aged Brie");
     }
+    
 
+    private void updateBackstagePasses(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+            if (item.sellIn < 11 && item.quality < 50) {
+                item.quality += 1;
+            }
+            if (item.sellIn < 6 && item.quality < 50) {
+                item.quality += 1;
+            }
+        }
+        if (item.sellIn < 0) {
+            item.quality = 0;
+        }
+    }
     
 
 
