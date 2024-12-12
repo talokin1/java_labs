@@ -39,4 +39,16 @@ public class BankingSystemTest {
         assertNotNull(result, "Transaction process result should not be null");
         assertTrue(result.contains("Processing bank transfer"), "Result should indicate bank transfer processing");
     }
+
+    @Test
+    public void testIncorrectHandlerOrder() {
+        AmountCheckHandler amountHandler = new AmountCheckHandler();
+        VerifiedHandler verifiedHandler = new VerifiedHandler();
+
+        amountHandler.setNext(verifiedHandler);
+        TransactionRequest request = new TransactionRequest(5000, 3000, true);
+
+        assertFalse(amountHandler.handleTransaction(request), "Transaction should fail due to incorrect handler order");
+    }
+
 }
