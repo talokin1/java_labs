@@ -12,14 +12,14 @@ public class TransactionRequest {
     }
 
     public double getAmount() {
-        return 5;
+        return amount;
     }
 
     public double getBalance() {
-        return 10;
+        return balance;
     }
 
     public boolean isVerified() {
-        return true;
+        return verified;
     }
 }
