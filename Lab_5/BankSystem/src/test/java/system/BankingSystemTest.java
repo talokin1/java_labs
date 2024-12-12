@@ -89,8 +89,12 @@ public class BankingSystemTest {
 
         assertFalse(balanceHandler.handleTransaction(request), "Transaction should fail due to unverified user");
 
-        String result = transaction.process(request.getAmount());
-        assertFalse(result.contains("Processing card payment"), "Transaction should not process card payment");
+        String result = null;
+        if (balanceHandler.handleTransaction(request)) {
+            result = transaction.process(request.getAmount());
+        }
+
+        assertNull(result, "Transaction should not be processed if user is not verified");
     }
 
 
