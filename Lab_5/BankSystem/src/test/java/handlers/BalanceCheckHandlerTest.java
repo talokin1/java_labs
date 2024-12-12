@@ -16,4 +16,14 @@ public class BalanceCheckHandlerTest {
 
         assertFalse(result, "Transaction should fail due to insufficient balance");
     }
+
+    @Test
+    public void testTransactionFailsWithoutChain() {
+        BalanceCheckHandler handler = new BalanceCheckHandler();
+        TransactionRequest request = new TransactionRequest(5000, 3000, true);
+
+        assertFalse(handler.handleTransaction(request), "Transaction should fail without a proper chain setup");
+    }
+
+
 }
