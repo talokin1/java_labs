@@ -41,15 +41,18 @@ public class BankingSystemTest {
     }
 
     @Test
-    public void testIncorrectHandlerOrder() {
+    public void testIncorrectHandlerOrderDueToAmountFirst() {
+        BalanceCheckHandler balanceHandler = new BalanceCheckHandler();
         AmountCheckHandler amountHandler = new AmountCheckHandler();
-        VerifiedHandler verifiedHandler = new VerifiedHandler();
 
-        amountHandler.setNext(verifiedHandler);
+        amountHandler.setNext(balanceHandler);
+
         TransactionRequest request = new TransactionRequest(5000, 3000, true);
 
         assertFalse(amountHandler.handleTransaction(request), "Transaction should fail due to incorrect handler order");
     }
+
+
 
     @Test
     public void testSuccessfulTransactionEndToEnd() {
