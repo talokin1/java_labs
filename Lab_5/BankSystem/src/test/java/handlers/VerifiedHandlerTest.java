@@ -1,7 +1,6 @@
-package tests.handlers;
+package handlers;
 
-import handlers.TransactionHandler;
-import handlers.VerifiedHandler;
+
 import org.junit.jupiter.api.Test;
 import requests.TransactionRequest;
 
