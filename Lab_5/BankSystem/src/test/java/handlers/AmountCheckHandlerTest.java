@@ -16,4 +16,16 @@ public class AmountCheckHandlerTest {
 
         assertFalse(result, "Transaction should fail due to exceeding the policy limit");
     }
+
+    @Test
+    public void testTransactionPassesWithoutVerifiedHandler() {
+        BalanceCheckHandler balanceHandler = new BalanceCheckHandler();
+        AmountCheckHandler amountHandler = new AmountCheckHandler();
+
+        balanceHandler.setNext(amountHandler);
+        TransactionRequest request = new TransactionRequest(5000, 20000, true);
+
+        assertTrue(balanceHandler.handleTransaction(request), "Transaction should pass without verified handler in the chain");
+    }
+
 }
