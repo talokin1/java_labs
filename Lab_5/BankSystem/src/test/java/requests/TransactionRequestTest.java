@@ -23,5 +23,4 @@ public class TransactionRequestTest {
         BalanceCheckHandler balanceHandler = new BalanceCheckHandler();
         assertTrue(balanceHandler.handleTransaction(request), "Transaction should pass when balance equals the amount");
     }
-
 }

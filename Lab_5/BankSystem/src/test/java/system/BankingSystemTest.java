@@ -51,4 +51,27 @@ public class BankingSystemTest {
         assertFalse(amountHandler.handleTransaction(request), "Transaction should fail due to incorrect handler order");
     }
 
+    @Test
+    public void testSuccessfulTransactionEndToEnd() {
+        PaymentSystem paymentSystem = new AmazonPay();
+        Transaction transaction = new BankTransfers(paymentSystem);
+
+        TransactionHandler balanceHandler = new BalanceCheckHandler();
+        TransactionHandler amountHandler = new AmountCheckHandler();
+        TransactionHandler verifiedHandler = new VerifiedHandler();
+
+        balanceHandler.setNext(amountHandler);
+        amountHandler.setNext(verifiedHandler);
+
+        TransactionRequest request = new TransactionRequest(5000, 20000, true);
+
+        assertTrue(balanceHandler.handleTransaction(request), "Transaction should pass all checks");
+
+        String result = transaction.process(request.getAmount());
+        assertNotNull(result, "Transaction process result should not be null");
+        assertTrue(result.contains("Processing bank transfer"), "Transaction result should indicate bank transfer");
+        assertTrue(result.contains("AmazonPay"), "Transaction result should include AmazonPay details");
+    }
+
+
 }
