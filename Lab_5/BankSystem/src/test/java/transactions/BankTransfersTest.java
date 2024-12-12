@@ -6,12 +6,12 @@ import payment.PaymentSystem;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BankTransferTransactionTest {
+public class BankTransfersTest {
 
     @Test
     public void testBankTransferProcessing() {
         PaymentSystem paymentSystem = new AmazonPay();
-        Transaction transaction = new BankTransferTransaction(paymentSystem);
+        Transaction transaction = new BankTransfers(paymentSystem);
 
         String result = transaction.process(5000);
 

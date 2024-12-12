@@ -1,4 +1,4 @@
 package transactions;
 
-public class BankTransferTransaction {
+public class BankTransfers {
 }
