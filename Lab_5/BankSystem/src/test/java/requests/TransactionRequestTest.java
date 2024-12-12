@@ -1,9 +1,9 @@
 package requests;
 
+import handlers.BalanceCheckHandler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import requests.TransactionRequest;
 
 public class TransactionRequestTest {
 
@@ -16,4 +16,12 @@ public class TransactionRequestTest {
         assertEquals(10, request.getBalance(), "Balance should match the initialized value");
         assertTrue(request.isVerified(), "Verification status should match the initialized value");
     }
+
+    @Test
+    public void testTransactionWithEqualBalanceAndAmount() {
+        TransactionRequest request = new TransactionRequest(5000, 5000, true);
+        BalanceCheckHandler balanceHandler = new BalanceCheckHandler();
+        assertTrue(balanceHandler.handleTransaction(request), "Transaction should pass when balance equals the amount");
+    }
+
 }
