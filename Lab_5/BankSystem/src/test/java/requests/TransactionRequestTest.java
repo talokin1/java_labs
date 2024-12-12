@@ -1,4 +1,4 @@
-package tests.requests;
+package requests;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,11 +9,11 @@ public class TransactionRequestTest {
 
     @Test
     public void testTransactionRequestCreation() {
-        TransactionRequest request = new TransactionRequest(5000, 20000, true);
+        TransactionRequest request = new TransactionRequest(5, 10, true);
 
         assertNotNull(request, "TransactionRequest object should be created successfully");
-        assertEquals(5000, request.getAmount(), "Amount should match the initialized value");
-        assertEquals(20000, request.getBalance(), "Balance should match the initialized value");
+        assertEquals(5, request.getAmount(), "Amount should match the initialized value");
+        assertEquals(10, request.getBalance(), "Balance should match the initialized value");
         assertTrue(request.isVerified(), "Verification status should match the initialized value");
     }
 }
