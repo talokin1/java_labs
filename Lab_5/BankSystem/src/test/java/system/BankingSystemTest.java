@@ -73,5 +73,26 @@ public class BankingSystemTest {
         assertTrue(result.contains("AmazonPay"), "Transaction result should include AmazonPay details");
     }
 
+    @Test
+    public void testTransactionFailsDueToUnverifiedUser() {
+        PaymentSystem paymentSystem = new CreditCard();
+        Transaction transaction = new CardTransaction(paymentSystem);
+
+        TransactionHandler balanceHandler = new BalanceCheckHandler();
+        TransactionHandler amountHandler = new AmountCheckHandler();
+        TransactionHandler verifiedHandler = new VerifiedHandler();
+
+        balanceHandler.setNext(amountHandler);
+        amountHandler.setNext(verifiedHandler);
+
+        TransactionRequest request = new TransactionRequest(7000, 20000, false);
+
+        assertFalse(balanceHandler.handleTransaction(request), "Transaction should fail due to unverified user");
+
+        String result = transaction.process(request.getAmount());
+        assertFalse(result.contains("Processing card payment"), "Transaction should not process card payment");
+    }
+
+
 
 }
